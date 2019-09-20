@@ -23,6 +23,11 @@ class BloodOath
     @@all
   end
 
+  def self.first_oath
+    sorted = self.all.sort_by {|bo| bo.initiation_date}
+    sorted.first
+  end
+
   # Instance methods
 
 
