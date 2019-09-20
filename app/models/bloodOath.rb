@@ -13,9 +13,10 @@ class BloodOath
   end
 
   def self.initiate(follower, cult, initiation_date)
-    self.new(follower, cult, initiation_date)
     follower.join_cult(cult)
     cult.recruit_follower(follower)
+    self.new(follower, cult, initiation_date)
+    # binding.pry
   end
 
   def self.all
@@ -23,5 +24,7 @@ class BloodOath
   end
 
   # Instance methods
+
+
   
 end

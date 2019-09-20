@@ -16,7 +16,9 @@ class Follower
   def self.all
     @@all
   end
-
+  def self.of_a_certain_age(num)
+    self.all.select {|follower| follower.age >= num}
+  end
   # Instance methods
   def join_cult(cult)
     self.cults << cult

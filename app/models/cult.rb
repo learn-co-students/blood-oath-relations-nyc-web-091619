@@ -6,7 +6,7 @@ class Cult
   # Class methods
   def initialize(name=nil, location=nil, founding_year=nil, slogan=nil)
     @name = name
-    @location == location
+    @location = location
     @founding_year = founding_year
     @slogan = slogan
     @followers = []
@@ -21,8 +21,9 @@ class Cult
     self.all.select {|kvlt| kvlt.name == name}
   end
 
-  def self.find_by_location(location)
-    self.all.select {|kvlt| kvlt.location == location}
+  def self.find_by_location(place)
+    # binding.pry
+    self.all.select {|kvlt| kvlt.location == place}
   end
 
   def self.find_by_founding_year(year)
