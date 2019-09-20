@@ -46,7 +46,8 @@ class Follower
   end
   # Instance methods
   def join_cult(cult)
-    self.cults << cult
+    self.cults << cult unless self.age < cult.minimum_age
+      "#{self.name} can't join #{cult.name} at this age!"
   end
 
   def my_cults_slogans

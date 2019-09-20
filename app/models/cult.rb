@@ -1,14 +1,15 @@
 class Cult
-  attr_accessor :name, :location, :followers
+  attr_accessor :name, :location, :followers, :minimum_age
   attr_reader :founding_year, :slogan
 
   @@all = []
   # Class methods
-  def initialize(name=nil, location=nil, founding_year=nil, slogan=nil)
+  def initialize(name=nil, location=nil, founding_year=nil, slogan=nil, minimum_age=0)
     @name = name
     @location = location
     @founding_year = founding_year
     @slogan = slogan
+    @minimum_age = minimum_age
     @followers = []
     @@all << self
   end
@@ -46,7 +47,8 @@ class Cult
 
   # Instance methods
   def recruit_follower(follower)
-    @followers << follower
+    @followers << follower unless follower.age < self.minimum_age
+      "I'm sorry, #{follower.name} is not old enough."
   end
 
   def cult_population
