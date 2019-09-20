@@ -1,0 +1,8 @@
+c1 = Cult.new("A Cult", "NYC", "A good slogan", 1994)
+c2 = Cult.new("A Second Cult", "Paris", "A better logan", 1994)
+f1 = Follower.new("Mary", 25, "my motto")
+f2 = Follower.new("Sally", 54, "Sally's motto")
+
+b1 = BloodOath.new(f1, c1, "2019/09/20")
+b2 = BloodOath.new(f2, c2, "2019/09/20")
+
