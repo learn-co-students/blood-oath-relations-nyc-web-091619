@@ -54,16 +54,7 @@ class Follower
   end
 
   def fellow_cult_members
-    # binding.pry
-
-    # find all cults I belong to
-    # Populate an array with the members of all of those cults
-    # remove myself, and call unique
-
-    self.cults.map {|cult| cult.followers.map {|follower| follower.name}}
-    
-    # This returns an array per cult -- needs further develoment to perfectly meet spec.
-
-    
+    array_of_names_per_cult = self.cults.map {|cult| cult.followers.map {|follower| follower.name}}
+    array_of_names_per_cult.flatten.uniq.select {|name| name != self.name}
   end
 end
