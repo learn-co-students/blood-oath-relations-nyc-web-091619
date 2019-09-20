@@ -19,13 +19,35 @@ class Cult
         BloodOath.new(follower, self, DateTime.now.strftime("%YYYY/%MM/%DD"))
     end # takes in an argument of a Follower instance and adds them to this cult's list of followers
     
+    def my_blood_oaths
+        BloodOath.all.select { |oath| oath.cult == self }
+    end
+
+    def my_followers
+        my_blood_oaths.map {|oath| oath.follower}
+    end
+
     def cult_population
-        BloodOath.all.select { |oath| oath.cult == self }.length
+        my_followers.length
     end # returns a Fixnum that is the number of followers in this cult
-    
+
+    def average_age
+        total = 0
+        my_followers.each {|follower| total += follower.age}
+        total / cult_population
+    end # returns a Float that is the average age of this cult's followers
+
+    def my_followers_mottos
+        my_followers.map {|follower| follower.life_motto}
+    end # prints out all of the mottos for this cult's followers
+
     def self.all
         @@all
     end # returns an Array of all the cults
+
+    def self.least_popular
+        all.min_by {|cult| cult.cult_population} 
+    end # returns the Cult instance who has the least number of followers :(
 
     def self.find_by_name(name)
         all.find { |cult| cult.name == name}
@@ -38,5 +60,8 @@ class Cult
     def self.find_by_founding_year(year)
         all.find { |cult| cult.founding_year == year }
     end # takes a Fixnum argument that is a year and returns all of the cults founded in that year
+
+    def self.most_common_location
+    end# returns a String that is the location with the most cults
 
 end # End of the Cult class
