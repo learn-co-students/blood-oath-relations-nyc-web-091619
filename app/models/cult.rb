@@ -29,12 +29,39 @@ class Cult
   def self.find_by_founding_year(year)
     self.all.select {|kvlt| kvlt.founding_year == year}  
   end
+
+  def self.least_popular
+    self.all.min_by {|cult| cult.cult_population}
+  end
+
+  def self.most_common_location
+    locs = self.all.map {|cult| cult.location }
+    loc_count = {}
+    locs.each do |loc|
+      loc_count[loc] = 0 unless loc_count[loc]
+      loc_count[loc] += 1
+    end
+    loc_count.max_by {|city, count| count}[0]
+  end
+
   # Instance methods
   def recruit_follower(follower)
-    @followers << [follower]
+    @followers << follower
   end
 
   def cult_population
     self.followers.count
   end
+
+  def average_age
+    binding.pry
+    age_sum = self.followers.map{|follower| follower.age}.reduce{|sum, age| sum + age}
+    avg = (age_sum / self.cult_population)
+  end
+
+  def my_follower_mottos
+    puts self.followers.map {|follower| follower.life_motto}
+  end
+
+
 end
