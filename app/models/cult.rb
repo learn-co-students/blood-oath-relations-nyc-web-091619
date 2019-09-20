@@ -3,20 +3,25 @@ require 'date'
 class Cult
 
     attr_reader :name, :founding_year
-    attr_accessor :location, :slogan
+    attr_accessor :location, :slogan, :min_age
 
     @@all = []
     
-    def initialize(name, location, slogan, founding_year)
+    def initialize(name, location, slogan, founding_year, min_age)
         @name = name
         @location = location
         @slogan = slogan
+        @min_age = min_age
         @founding_year = founding_year
         @@all << self
     end
 
     def recruit_follower(follower)
-        BloodOath.new(follower, self, DateTime.now.strftime("%YYYY/%MM/%DD"))
+        if follower.age >= self.min_age
+            BloodOath.new(follower, self, DateTime.now.strftime("%YYYY/%MM/%DD"))
+        else
+            puts "Sorry, you are too young. Come back in a few years!"
+        end
     end # takes in an argument of a Follower instance and adds them to this cult's list of followers
     
     def my_blood_oaths

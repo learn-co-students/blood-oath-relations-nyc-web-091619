@@ -24,12 +24,20 @@ class Follower
     end # returns an Array of this follower's cults
 
     def join_cult(cult)
-        BloodOath.new(self, cult, DateTime.now.strftime("%YYYY/%MM/%DD"))
+        if self.age >= cult.min_age
+            BloodOath.new(self, cult, DateTime.now.strftime("%YYYY/%MM/%DD"))
+        else
+            puts "Sorry, you are too young. Come back in a few years!"
+        end
     end # takes in an argument of a Cult instance and adds this follower to the cult's list of followers
 
     def my_cults_slogans
         puts cults.map {|cult| cult.slogan}
     end # prints out all of the slogans for this follower's cults
+
+    def fellow_cult_members
+        my_fellows = cults.map {|cult| cult.my_followers}.flatten.uniq - [self]
+    end
 
     def self.all
         @@all
