@@ -59,11 +59,11 @@ class Cult
     end # takes a String argument that is a name and returns a Cult instance whose name matches that argument
     
     def self.find_by_location(location)
-        all.find { |cult| cult.location == location}
+        all.select { |cult| cult.location == location}
     end # takes a String argument that is a location and returns an Array of cults that are in that location
     
     def self.find_by_founding_year(year)
-        all.find { |cult| cult.founding_year == year }
+        all.select { |cult| cult.founding_year == year }
     end # takes a Fixnum argument that is a year and returns all of the cults founded in that year
 
     def self.most_common_location
