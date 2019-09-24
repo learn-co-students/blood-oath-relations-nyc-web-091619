@@ -1,5 +1,5 @@
 class Cult
-  attr_accessor :name, :location, :followers, :minimum_age
+  attr_accessor :name, :location, :minimum_age
   attr_reader :founding_year, :slogan
 
   @@all = []
@@ -10,7 +10,6 @@ class Cult
     @founding_year = founding_year
     @slogan = slogan
     @minimum_age = minimum_age
-    @followers = []
     @@all << self
   end
 
@@ -23,7 +22,6 @@ class Cult
   end
 
   def self.find_by_location(place)
-    # binding.pry
     self.all.select {|kvlt| kvlt.location == place}
   end
 
@@ -46,9 +44,21 @@ class Cult
   end
 
   # Instance methods
-  def recruit_follower(follower)
-    @followers << follower unless follower.age < self.minimum_age
-      "I'm sorry, #{follower.name} is not old enough."
+  def blood_oaths
+    BloodOath.all.select do |bo|
+      bo.cult == self
+    end
+  end
+
+  def followers
+    blood_oaths.map do |bo|
+      bo.cultist
+    end
+  end
+
+  def recruit_follower(follower, initiation_date)
+    BloodOath.new(follower, self, initiation_date) unless follower.age < self.minimum_age
+      "I'm sorry, #{follower.name} is not old enough"
   end
 
   def cult_population
@@ -56,7 +66,6 @@ class Cult
   end
 
   def average_age
-    binding.pry
     age_sum = self.followers.map{|follower| follower.age}.reduce{|sum, age| sum + age}
     avg = (age_sum / self.cult_population)
   end

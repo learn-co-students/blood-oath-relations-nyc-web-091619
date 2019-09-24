@@ -1,9 +1,7 @@
 class Follower
   attr_reader :name, :age, :life_motto
-  attr_accessor :cults
 
   @@all = []
-  # @@cult_count = {}
   
 
   # Class methods
@@ -11,7 +9,6 @@ class Follower
     @name = name
     @age = age
     @life_motto = life_motto
-    @cults = []
 
     @@all << self
   end
@@ -31,7 +28,7 @@ class Follower
   def self.of_a_certain_age(num)
     self.all.select {|follower| follower.age >= num}
   end
-
+  
   def self.most_active
     # binding.pry
     # self.all.each do |follower|
@@ -45,17 +42,39 @@ class Follower
     sorted.first(10)
   end
   # Instance methods
-  def join_cult(cult)
-    self.cults << cult unless self.age < cult.minimum_age
+
+  def blood_oaths
+    BloodOath.all.select do |bo|
+      bo.cultist == self
+    end
+  end
+
+  def cults
+    blood_oaths.map do |bo|
+      bo.cult
+    end
+  end
+
+  def join_cult(cult, initiation_date)
+    BloodOath.new(self, cult, initiation_date) unless self.age < cult.minimum_age 
       "#{self.name} can't join #{cult.name} at this age!"
   end
+
 
   def my_cults_slogans
     puts self.cults.map {|cult| cult.slogan}
   end
 
   def fellow_cult_members
-    array_of_names_per_cult = self.cults.map {|cult| cult.followers.map {|follower| follower.name}}
-    array_of_names_per_cult.flatten.uniq.select {|name| name != self.name}
+    array_of_names_per_cult = self.cults.map do |cult|
+      cult.followers.map do |follower|
+        follower.name
+      end
+    end
+    
+    array_of_names_per_cult.flatten.uniq.select do |name| # Sorry. 
+      name != self.name
+    end
   end
+
 end
